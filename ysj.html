@@ -5,9 +5,18 @@
     <p>英雄列表：zhy zsy zww qsj Rachel xln hgn bxgz</p>
     <button onclick="myFunction()">按我！</button>
     <script>
-      function myFunction() {
-        document.getElementById("change").innerHTML = "zhy";
-      }
+        let Hero = ['张慧颖', '张思颖', '周汶汶', '邱淑贞', 'Rachel', '小龙女', '灰姑娘', '白雪公主'];
+        function getRandom() {
+            var min = 1;
+            var max = Hero.length;
+            return Math.random() * (max-min) + min;
+        }
+        var randomNumber = parseInt(getRandom());
+        console.log(randomNumber);
+        var heroGod = Hero[randomNumber];
+        function myFunction() {
+            document.getElementById("change").innerHTML = heroGod;
+        }
     </script>
   </body>
 </html>
