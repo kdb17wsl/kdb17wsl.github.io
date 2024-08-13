@@ -6,17 +6,17 @@
     <p>英雄列表：qsj Rachel xln hgn bxgz</p>
     <button onclick="myFunction()">按我！</button>
     <script>
-        let Hero = ['邱淑贞', 'Rachel', '小龙女', '灰姑娘', '白雪公主'];
-        function getRandom() {
+        function myFunction() {
+          let Hero = ['邱淑贞', 'Rachel', '小龙女', '灰姑娘', '白雪公主'];
+          function getRandom() {
             var min = 1;
             var max = Hero.length;
             return Math.random() * (max-min) + min;
-        }
-        var randomNumber = parseInt(getRandom());
-        console.log(randomNumber);
-        var heroGod = Hero[randomNumber];
-        function myFunction() {
-            document.getElementById("change").innerHTML = heroGod;
+          }
+          var randomNumber = parseInt(getRandom());
+          console.log(randomNumber);
+          var heroGod = Hero[randomNumber];
+          document.getElementById("change").innerHTML = heroGod;
         }
     </script>
   </body>
