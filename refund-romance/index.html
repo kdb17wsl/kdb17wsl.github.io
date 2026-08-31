@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>仅退款恋爱 · 一根香蕉的资产负债表</title>
+<meta name="description" content="一款单局十五分钟的叙事清算游戏。纯属虚构。">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        ink:   { 900:'#0b0d10', 800:'#12151a', 700:'#191d24', 600:'#232830', 500:'#31384333' },
+        paper: '#f4f1e9',
+        bruise:'#c8a24a',
+        sea:   '#5b7f8c',
+        rose:  '#b4646a'
+      },
+      fontFamily: {
+        serif: ['"Noto Serif SC"','"Songti SC"','"Source Han Serif SC"','SimSun','serif'],
+        mono:  ['"SFMono-Regular"','"JetBrains Mono"','Menlo','Consolas','ui-monospace','monospace']
+      }
+    }
+  },
+  safelist: ['text-bruise','text-sea','text-rose','text-paper','text-neutral-400']
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+  :root{
+    --bar-heart:#b4646a; --bar-dignity:#8d9ab0; --bar-vacancy:#c8a24a; --bar-echo:#5b7f8c;
+    --paper:#f4f1e9;
+  }
+  html,body{height:100%;}
+  body{
+    background:#0b0d10;
+    color:#dfe3ea;
+    font-family:'Noto Serif SC','Songti SC','Source Han Serif SC',SimSun,serif;
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+  ::selection{background:#c8a24a;color:#0b0d10;}
+  /* 细滚动条 */
+  .thin::-webkit-scrollbar{width:4px;height:4px}
+  .thin::-webkit-scrollbar-thumb{background:#2c323c;border-radius:4px}
+  .thin::-webkit-scrollbar-track{background:transparent}
+
+  /* 打字机光标 */
+  .caret::after{content:'';display:inline-block;width:.5em;height:1em;background:#c8a24a;margin-left:.15em;vertical-align:-.12em;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  /* 叙述段落淡入 */
+  .beat{animation:rise .5s cubic-bezier(.2,.7,.3,1) both}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  /* 小票锯齿 */
+  .receipt{background:var(--paper);color:#14171c;position:relative;box-shadow:0 6px 20px -8px #000}
+  .receipt::before,.receipt::after{
+    content:'';position:absolute;left:0;right:0;height:5px;
+    background-image:radial-gradient(circle at 3px 0, transparent 3px, var(--paper) 3.4px);
+    background-size:6px 5px;background-repeat:repeat-x;
+  }
+  .receipt::before{top:-5px;transform:scaleY(-1)}
+  .receipt::after{bottom:-5px}
+
+  /* CRT 老屏幕 */
+  .crt{position:relative;background:#0d1a12;overflow:hidden}
+  .crt::after{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(180deg,rgba(255,255,255,.055) 0 1px,transparent 1px 3px);
+    animation:roll 7s linear infinite;
+  }
+  @keyframes roll{to{transform:translateY(3px)}}
+
+  /* 香蕉腐烂 */
+  .nana{transition:filter 1.4s ease}
+  .f0{filter:hue-rotate(35deg) saturate(1.15)}
+  .f1{filter:none}
+  .f2{filter:sepia(.45) saturate(.85) brightness(.86)}
+  .f3{filter:grayscale(.72) brightness(.42) contrast(1.25)}
+
+  /* 回声波纹 */
+  .echo-ring{position:absolute;inset:0;border:1px solid #5b7f8c;border-radius:9999px;opacity:0;animation:ring 3.4s ease-out infinite}
+  @keyframes ring{0%{transform:scale(.35);opacity:.55}100%{transform:scale(2.4);opacity:0}}
+
+  /* 数值抖动 */
+  .bump{animation:bump .45s ease}
+  @keyframes bump{0%,100%{transform:none}35%{transform:translateY(-4px) scale(1.06)}}
+
+  /* 选项按钮 */
+  .opt{transition:transform .18s,background .18s,border-color .18s;border:1px solid #262c36;background:#14181e}
+  .opt:hover{background:#1b212a;border-color:#c8a24a;transform:translateX(3px)}
+  .opt:active{transform:translateX(1px) scale(.995)}
+
+  /* 遮光胶带 */
+  .tape{position:absolute;background:rgba(24,26,30,.94);border:1px dashed rgba(200,162,74,.35);box-shadow:0 1px 0 rgba(255,255,255,.06) inset}
+
+  /* 通用弹层 */
+  .layer{position:fixed;inset:0;z-index:60;display:none;background:rgba(6,8,11,.92);backdrop-filter:blur(6px)}
+  .layer.on{display:flex}
+
+  .glow{box-shadow:0 0 0 1px #c8a24a55, 0 0 32px -12px #c8a24a}
+  .vig{background:radial-gradient(120% 90% at 50% 0%,#151a21 0%,#0b0d10 62%)}
+  .hairline{border-color:#22272f}
+  input[type=range]{-webkit-appearance:none;height:2px;background:#333a45;border-radius:2px}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#c8a24a;border:3px solid #0b0d10;cursor:pointer}
+  .noscroll{overscroll-behavior:contain}
+</style>
+</head>
+<body class="vig">
+
+<!-- ══════════ 开屏免责 ══════════ -->
+<div id="disclaimer" class="fixed inset-0 z-[90] flex items-center justify-center bg-ink-900 px-6">
+  <div class="max-w-xl text-center space-y-5">
+    <div class="text-5xl">🍌</div>
+    <p class="text-xs tracking-[0.4em] text-neutral-500 font-mono">FICTION ONLY</p>
+    <div class="text-[13px] leading-7 text-neutral-400 space-y-2">
+      <p>本作为<span class="text-bruise">纯虚构</span>的荒诞喜剧。</p>
+      <p>全部人物、机构、地点、作品、金额与事件均为创作虚构，与现实中任何个人、企业或事件<span class="text-bruise">无关</span>，任何相似均属巧合。</p>
+      <p>本作不针对、不评价、不指认任何现实人物。</p>
+      <p class="text-neutral-500">请把它当作一个关于「钱能买到什么」的寓言。</p>
+    </div>
+    <div class="pt-2 text-[11px] font-mono text-neutral-600" id="dis-count">2.5</div>
+  </div>
+</div>
+
+<!-- ══════════ 标题页 ══════════ -->
+<div id="title" class="fixed inset-0 z-[80] hidden items-center justify-center px-6">
+  <div class="w-full max-w-3xl text-center">
+    <p class="font-mono text-[11px] tracking-[0.5em] text-neutral-500 mb-6">一颗种子 3.5 微克 · 五千万 2.5 吨</p>
+    <h1 class="text-6xl sm:text-8xl font-bold tracking-tight leading-none">仅退款<span class="text-bruise">恋爱</span></h1>
+    <p class="mt-5 text-neutral-400 text-sm">一根香蕉的资产负债表 · 单局约 15 分钟</p>
+    <div class="mt-10 grid sm:grid-cols-3 gap-3 text-left">
+      <div class="rounded-xl border hairline bg-ink-800/60 p-4">
+        <div class="text-bruise text-lg mb-1">🍌</div>
+        <p class="text-[11px] text-neutral-500 leading-5">你手里有一根 620 万的香蕉。它会在 15 分钟里烂掉。</p>
+      </div>
+      <div class="rounded-xl border hairline bg-ink-800/60 p-4">
+        <div class="text-sea text-lg mb-1">🌊</div>
+        <p class="text-[11px] text-neutral-500 leading-5">你为她维护一片真空。而真空会有回声。</p>
+      </div>
+      <div class="rounded-xl border hairline bg-ink-800/60 p-4">
+        <div class="text-rose text-lg mb-1">🧾</div>
+        <p class="text-[11px] text-neutral-500 leading-5">最后你要逐项清算：确认收货，还是仅退款。</p>
+      </div>
+    </div>
+    <button id="btn-start" class="mt-10 px-12 py-4 rounded-full bg-bruise text-ink-900 font-bold tracking-widest glow hover:brightness-110 active:scale-95 transition">开 始</button>
+    <p class="mt-4 text-[11px] text-neutral-600">建议戴耳机 · 全程可点击任意处继续</p>
+  </div>
+</div>
+
+<!-- ══════════ 主界面 ══════════ -->
+<div id="game" class="hidden h-full w-full flex-col">
+
+  <!-- 顶栏 -->
+  <header class="shrink-0 border-b hairline bg-ink-900/80 backdrop-blur">
+    <div class="mx-auto max-w-[1600px] px-3 sm:px-5 h-14 flex items-center gap-3 sm:gap-5">
+      <div class="flex items-center gap-2 shrink-0">
+        <span id="nana-top" class="nana f0 text-xl leading-none">🍌</span>
+        <div class="leading-tight">
+          <div class="font-mono text-[10px] text-neutral-500">已付重量</div>
+          <div class="font-mono text-[13px] text-bruise" id="hud-paid">0.00 吨</div>
+        </div>
+      </div>
+      <div id="hud-bars" class="flex-1 grid grid-cols-4 gap-2 sm:gap-4 min-w-0"></div>
+      <button id="btn-panel" class="lg:hidden shrink-0 rounded-lg border hairline px-3 py-2 text-[11px] text-neutral-400">账本</button>
+    </div>
+  </header>
+
+  <!-- 三栏 -->
+  <div class="flex-1 min-h-0 mx-auto w-full max-w-[1600px] px-3 sm:px-5 py-4 grid gap-4 lg:grid-cols-[240px_minmax(0,1fr)_320px]">
+
+    <!-- 左：时间线 / 收藏 / 顾问 -->
+    <aside id="pane-left" class="hidden lg:flex flex-col gap-4 min-h-0">
+      <div class="rounded-xl border hairline bg-ink-800/50 p-4">
+        <div class="flex items-center justify-between mb-3">
+          <span class="font-mono text-[10px] tracking-widest text-neutral-500">保鲜度</span>
+          <span id="fresh-label" class="font-mono text-[10px] text-bruise">青</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span id="nana-big" class="nana f0 text-4xl">🍌</span>
+          <div class="flex-1">
+            <div class="h-1.5 rounded bg-ink-600 overflow-hidden"><div id="fresh-bar" class="h-full bg-bruise transition-all duration-1000" style="width:2%"></div></div>
+            <div class="mt-2 font-mono text-[10px] text-neutral-600">剩余 <span id="fresh-time">15:00</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-xl border hairline bg-ink-800/50 p-4">
+        <div class="font-mono text-[10px] tracking-widest text-neutral-500 mb-3">章节</div>
+        <ol id="chapters" class="space-y-2 text-[12px] text-neutral-600"></ol>
+      </div>
+
+      <div class="rounded-xl border hairline bg-ink-800/50 p-4">
+        <div class="font-mono text-[10px] tracking-widest text-neutral-500 mb-1">登记上写着有人</div>
+        <div class="text-[10px] text-neutral-600 mb-3">名字 <span id="names-n" class="font-mono text-neutral-400">0</span>/5</div>
+        <div id="names-grid" class="grid grid-cols-5 gap-1.5"></div>
+      </div>
+
+      <button id="btn-ai" class="rounded-xl border hairline bg-ink-800/50 p-4 text-left hover:border-bruise transition">
+        <div class="font-mono text-[10px] tracking-widest text-neutral-500 mb-1">顾问</div>
+        <div class="text-[12px] text-neutral-300">问一下 <span class="font-mono text-sea">CALM-4</span></div>
+        <div class="text-[10px] text-neutral-600 mt-1">剩余咨询 <span id="ai-left" class="font-mono">2</span> 次</div>
+      </button>
+    </aside>
+
+    <!-- 中：阅读器 -->
+    <main class="min-h-0 flex flex-col rounded-2xl border hairline bg-ink-800/40 overflow-hidden">
+      <div id="reader" class="thin flex-1 overflow-y-auto px-5 sm:px-10 py-8 noscroll">
+        <div id="stream" class="mx-auto max-w-[46rem] space-y-5 text-[15px] sm:text-[16.5px] leading-[2.05]"></div>
+        <div id="choices" class="mx-auto max-w-[46rem] mt-7 space-y-2.5"></div>
+        <div class="h-24"></div>
+      </div>
+      <div id="tapbar" class="shrink-0 border-t hairline px-5 py-2.5 flex items-center justify-between text-[11px] text-neutral-600">
+        <span id="tap-hint" class="font-mono">点击任意处继续 ▸</span>
+        <div class="flex items-center gap-3">
+          <button id="btn-auto" class="font-mono hover:text-bruise transition">自动：关</button>
+          <button id="btn-mute" class="font-mono hover:text-bruise transition">声音：开</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- 右：账本 -->
+    <aside id="pane-right" class="hidden lg:flex flex-col gap-3 min-h-0">
+      <div class="rounded-xl border hairline bg-ink-800/50 p-4 shrink-0">
+        <div class="flex items-baseline justify-between">
+          <span class="font-mono text-[10px] tracking-widest text-neutral-500">账本</span>
+          <span class="font-mono text-[11px] text-neutral-400"><span id="rc-n">0</span> 笔</span>
+        </div>
+        <p class="mt-2 text-[10px] leading-5 text-neutral-600">每一次付出都会生成一张凭证。<br>结束时你要逐项处理它们。</p>
+      </div>
+      <div id="rc-list" class="thin flex-1 overflow-y-auto space-y-3 pr-1 noscroll"></div>
+    </aside>
+  </div>
+
+  <footer class="shrink-0 py-2 text-center text-[10px] text-neutral-700">
+    虚构作品 · 情节与数值均为游戏设计 · 请勿与现实人物对应 ｜
+  </footer>
+</div>
+
+<!-- ══════════ 弹层 ══════════ -->
+<div id="mini-layer" class="layer items-center justify-center p-3 sm:p-6"><div id="mini-box" class="w-full max-w-2xl"></div></div>
+<div id="ai-layer"   class="layer items-center justify-center p-3 sm:p-6"><div id="ai-box" class="w-full max-w-xl"></div></div>
+<div id="settle-layer" class="layer items-stretch justify-center p-0"><div id="settle-box" class="w-full h-full overflow-hidden"></div></div>
+<div id="end-layer"  class="layer items-stretch justify-center p-0"><div id="end-box" class="w-full h-full overflow-y-auto thin"></div></div>
+<div id="black-layer" class="fixed inset-0 z-[85] hidden bg-black"><div id="black-box" class="absolute inset-0 flex items-center justify-center"></div></div>
+<div id="toast-wrap" class="fixed z-[70] bottom-5 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"></div>
+
+<script type="module" src="./main.js"></script>
+</body>
+</html>
